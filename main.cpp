@@ -59,8 +59,8 @@ size_t read_opts(int argc, char const *argv[])
 	auto constexpr exe_name = "fictitious_play";
 	auto constexpr exe_desc = "Solves a matrix game using fictitious-play. "
 		"Reads a payoff matrix from stdin. Example:\n\n$ cat payoff"
-		"\n5 7 4\n3 5 6\n6 4 5\n$ cat payoff | .fictitious_play \n0.25"
-		" 0.256 0.494\n0.248 0.256  0.496\n";
+		"\n5 7 4\n3 5 6\n6 4 5\n$ cat payoff | .fictitious_play \n0.251"
+		" 0.247 0.502\n0.252 0.253  0.495\n";
 	auto const i_type = cxxopts::value<size_t>()->default_value("1000");
 	auto constexpr i_name = "i,iterations";
 	auto constexpr i_desc = "Number of iterations";
