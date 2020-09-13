@@ -7,6 +7,7 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 find_package(Eigen3 3.3 REQUIRED NO_MODULE)
 
 add_executable(fictitious_play main.cpp)
-target_compile_options(fictitious_play PRIVATE -Wall -Wextra -pedantic -Werror -Og)
+target_include_directories(fictitious_play PRIVATE cxxopts)
+target_compile_options(fictitious_play PRIVATE -Wall -Wextra -pedantic -Werror -Ofast)
 
 target_link_libraries(fictitious_play Eigen3::Eigen)
