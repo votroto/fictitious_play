@@ -6,11 +6,11 @@
 
 // Returns the index of the minimum element.
 template <typename T>
-auto min_idx(T begin, T end)
+auto max_idx(T begin, T end)
 {
 	namespace rgs = std::ranges;
 
-	auto const min_ptr = rgs::min_element(begin, end);
+	auto const min_ptr = rgs::max_element(begin, end);
 	return rgs::distance(begin, min_ptr);
 }
 
@@ -25,10 +25,10 @@ auto play(float *const data, long const width, long const height, size_t const i
 	eig::Map<matrixf> const payoff_c{data, height, width};
 	matrixf const payoff_r{payoff_c.transpose()};
 
-	vectorf picked_r{payoff_c.rows()};
-	vectorf picked_c{payoff_c.cols()};
-	vectorf sub_r{payoff_c.rows()};
-	vectorf sum_c{payoff_c.cols()};
+	vectorf picked_r{payoff_r.rows()};
+	vectorf picked_c{payoff_r.cols()};
+	vectorf sub_r{payoff_r.rows()};
+	vectorf sum_c{payoff_r.cols()};
 
 	picked_r.setZero();
 	picked_c.setZero();
@@ -39,10 +39,10 @@ auto play(float *const data, long const width, long const height, size_t const i
 	// -> Smaller icache? (°_°>). idk.
 	for (size_t i{0}; i < iters; i++)
 	{
-		auto const idx_r = min_idx(std::begin(sub_r), std::end(sub_r));
+		auto const idx_r = max_idx(std::begin(sub_r), std::end(sub_r));
 		++picked_r(idx_r);
 		sum_c += payoff_r.row(idx_r);
-		auto const idx_c = min_idx(std::begin(sum_c), std::end(sum_c));
+		auto const idx_c = max_idx(std::begin(sum_c), std::end(sum_c));
 		++picked_c(idx_c);
 		sub_r -= payoff_c.row(idx_c);
 	}
