@@ -31,29 +31,29 @@ auto fictitious(float *const data, long const width, long const height, size_t c
 	sum_r.setZero();
 	sum_c.setZero();
 
-	for (size_t i = 0; i < iters; i++)
+	for (size_t i{0}; i < iters; i++)
 	{
 		auto const idx_r = min_idx(std::begin(sum_r), std::end(sum_r));
-		picked_r(idx_r) += 1;
+		++picked_r(idx_r);
 		sum_c += payoff_r.row(idx_r);
 		auto const idx_c = min_idx(std::begin(sum_c), std::end(sum_c));
-		picked_c(idx_c) += 1;
+		++picked_c(idx_c);
 		sum_r -= payoff_c.row(idx_c);
 	}
 
-	auto strat_r = picked_r / iters;
-	auto strat_c = picked_c / iters;
+	vectorf strat_r = picked_r / iters;
+	vectorf strat_c = picked_c / iters;
 
-	std::cout << strat_r << std::endl;
-	std::cout << strat_c << std::endl;
+	return std::make_tuple(strat_r, strat_c);
 }
 
 int main()
 {
-	std::vector<float> nums;
-	long width = 0, height = 0, iters = 100000;
-	std::string line;
 	std::ios_base::sync_with_stdio(false);
+
+	std::vector<float> nums;
+	long width{0}, height{0}, iters{100000};
+	std::string line;
 	for (; std::getline(std::cin, line) && !std::empty(line); height++)
 	{
 		long current_width = 0;
@@ -74,5 +74,7 @@ int main()
 		}
 	}
 
-	fictitious(std::data(nums), width, height, iters);
+	auto [s_row, s_col] = fictitious(std::data(nums), width, height, iters);
+	std::cout << s_row << std::endl;
+	std::cout << s_col << std::endl;
 }
